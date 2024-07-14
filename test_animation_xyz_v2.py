@@ -1,38 +1,34 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
-from FwO import trotz, transl, trotx
 from IK_resolver import *
-from Quad_def import xyz_FL
+from DK_solver import xyz_left
 from Quadrupedal_Model import Kinematic_Model
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 KM = Kinematic_Model()
-
-
 matrix_FL = KM.matrix_FL
-x01, y01, z01, x12, y12, z12, x23, y23, z23 = xyz_FL(matrix_FL)
-x_ = x23[1]
-y_ = y23[1]
-z_ = z23[1]
-print(z_)
-line0, = ax.plot(x01, y01, z01, marker='o')
-line1, = ax.plot(x12, y12, z12, marker='o')
-line2, = ax.plot(x23, y23, z23, marker='o')
-
 matrix_BL = KM.matrix_BL
-x01BL, y01BL, z01BL, x12BL, y12BL, z12BL, x23BL, y23BL, z23BL = xyz_FL(matrix_BL)
 
+# Initial lines for Front Left leg
+x01FL, y01FL, z01FL, x12FL, y12FL, z12FL, x23FL, y23FL, z23FL = xyz_left(matrix_FL, last = False) 
+line0, = ax.plot(x01FL, y01FL, z01FL, marker='o')
+line1, = ax.plot(x12FL, y12FL, z12FL, marker='o')
+line2, = ax.plot(x23FL, y23FL, z23FL, marker='o')
+
+# Initial lines for Back Left leg
+x01BL, y01BL, z01BL, x12BL, y12BL, z12BL, x23BL, y23BL, z23BL = xyz_left(matrix_BL, last = False)
 line3, = ax.plot(x01BL, y01BL, z01BL, marker='o')
 line4, = ax.plot(x12BL, y12BL, z12BL, marker='o')
 line5, = ax.plot(x23BL, y23BL, z23BL, marker='o')
 
+
+
 def update_line(X, Y, Z):
-    global z_, matrix_FL, matrix_BL
-    angle0, angle1, angle2 = solve_L([X, Y, Z + z_]) # change 5 with l1 and -17.67 with z_
-    x0, y0, z0, x1, y1, z1, x2, y2, z2 = xyz_FL(matrix_FL, [angle0, angle1,angle2])
+    angle0, angle1, angle2 = solve_L([X, Y, Z]) 
+    x0, y0, z0, x1, y1, z1, x2, y2, z2 = xyz_left(matrix_FL, angles = [angle0, angle1,angle2], last = False)
 
     line0.set_data(x0, y0)
     line0.set_3d_properties(z0)
@@ -40,10 +36,9 @@ def update_line(X, Y, Z):
     line1.set_3d_properties(z1)
     line2.set_data(x2, y2)
     line2.set_3d_properties(z2)
-    #fig.canvas.draw_idle()
         
-    angle0, angle1, angle2 = solve_L([X, Y, Z + z_]) # change 5 with l1 and -17.67 with z_
-    x01BL, y01BL, z01BL, x12BL, y12BL, z12BL, x23BL, y23BL, z23BL = xyz_FL(matrix_BL, [angle0, angle1,angle2])
+    angle0, angle1, angle2 = solve_L([X, Y, Z])
+    x01BL, y01BL, z01BL, x12BL, y12BL, z12BL, x23BL, y23BL, z23BL = xyz_left(matrix_BL, angles = [angle0, angle1,angle2], last = False)
 
     line3.set_data(x01BL, y01BL)
     line3.set_3d_properties(z01BL)
@@ -51,9 +46,9 @@ def update_line(X, Y, Z):
     line4.set_3d_properties(z12BL)
     line5.set_data(x23BL, y23BL)
     line5.set_3d_properties(z23BL)
-    fig.canvas.draw_idle()
     
 
+    fig.canvas.draw_idle()
 
 def update(val):
     X = slider0.val

@@ -3,11 +3,11 @@ from Quadrupedal_Model import Kinematic_Model
 
 KM = Kinematic_Model()
 
-def solve_L(coord , L1=KM.l1, L2=KM.l2, L3=KM.l3):    
-    
-    z = coord[0]
-    x = coord[1] + L1
-    y = coord[2]
+def solve_L(coord , L1=KM.l1, L2=KM.l2, L3=KM.l3, W = KM.W, L = KM.L, start_height = -17.67766952966369):   # DELETE L1 AND START_HEIGHT AFTER TESTING ANIMATIONS 
+    #check_error(coord , L1, L2, L3)
+    z = coord[0]                    # X
+    x = coord[1] + L1               # Y
+    y = coord[2] + start_height     # Z
     
     θ1 = np.arctan(np.sqrt(x**2 + y**2 - L1**2) / L1) + np.arctan2(y, x)
     θ2 = np.arctan(-z/ np.sqrt(x**2 + y**2 - L1**2)) + np.arccos((L1**2 - L2**2 + L3**2 - x**2 - y**2 - z**2)/(-2*L2*np.sqrt(x**2 + y**2 + z**2 - L1**2)))
@@ -17,7 +17,7 @@ def solve_L(coord , L1=KM.l1, L2=KM.l2, L3=KM.l3):
     return angles
     
 def solve_R(coord , L1, L2, L3):
-    check_error(coord , L1, L2, L3)
+    #check_error(coord , L1, L2, L3)
     z = coord[0]
     x = coord[1]
     y = coord[2]

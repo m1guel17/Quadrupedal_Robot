@@ -10,7 +10,7 @@ def trotx(x, unit = "rad"):
 
 # =============================================================================
 # Pure Rotation about the y-axis | Rotation about the o-axis | PITCH
-def troty(y):
+def troty(y, unit = "rad"):
     return np.matrix([[np.cos(y), 0, np.sin(y), 0],
                       [0,         1,         0, 0],
                       [-np.sin(y),0, np.cos(y), 0],
@@ -18,7 +18,7 @@ def troty(y):
 
 # =============================================================================
 # Pure Rotation about the z-axis | Rotation about the a-axis | YAW
-def trotz(z):
+def trotz(z, unit = "rad"):
     return np.matrix([[np.cos(z),-np.sin(z), 0, 0],
                       [np.sin(z), np.cos(z), 0, 0],
                       [0,         0,         1, 0],

@@ -1,22 +1,23 @@
 from Plot import *
 from FwO import trotz, transl, trotx
 import numpy as np
+from Quadrupedal_Model import Kinematic_Model
 
-L = 20
-W = 10
-
-l1 = 5
-l2 = 12.5
-l3 = 12.5
+KM = Kinematic_Model()
+L = KM.L
+W = KM.W
+l1 = KM.l1
+l2 = KM.l2
+l3 = KM.l3
 
 origin = np.array([np.matrix(np.eye(4))])
 origin_ = np.array([np.matrix(np.eye(4))* trotz(np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(np.pi/2)])
 
 # Body dimentions
-FRS = origin * transl(L/2, -W/2, 0)
-FLS = origin * transl(L/2, W/2, 0)
-BRS = origin * transl(-L/2,-W/2, 0)
-BLS = origin * transl(-L/2, W/2, 0)
+FRS = KM.matrix_FR
+FLS = KM.matrix_FL
+BRS = KM.matrix_BR
+BLS = KM.matrix_BL
 body = np.array([FRS, BRS, BLS, FLS])
 
 # Front_Left Leg ===================================================================
