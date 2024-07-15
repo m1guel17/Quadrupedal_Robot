@@ -59,10 +59,10 @@ def RT(orientation, position):
 # =============================================================================
 # Transform a vector to a desired rotation and location
 def transform(coord,rotation,translation):
-    v = np.array([[coord[0]],
-                       [coord[1]],
-                       [coord[2]],
-                       [      1]])
+    v = np.array([  [coord[0]],
+                    [coord[1]],
+                    [coord[2]],
+                    [      1]])
     
     tranformVector = RT(rotation, translation) * v
     return np.array([tranformVector[0, 0], tranformVector[1, 0], tranformVector[2, 0]])

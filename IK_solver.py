@@ -1,12 +1,12 @@
 import numpy as np
-from Quadrupedal_Model import Kinematic_Model
+from QD import Quad_model
 
-KM = Kinematic_Model()
-
-def solve_L(coord , L1=KM.l1, L2=KM.l2, L3=KM.l3, W = KM.W, L = KM.L, start_height = -17.67766952966369):   # DELETE L1 AND START_HEIGHT AFTER TESTING ANIMATIONS 
+QM = Quad_model()
+# Inverse Kinematics for quadrupedal robot
+def solve_L(coord , L1=QM.l1, L2=QM.l2, L3=QM.l3, W = QM.W, L = QM.L, start_height = QM.start_height):
     #check_error(coord , L1, L2, L3)
     z = coord[0]                    # X
-    x = coord[1] + L1               # Y
+    x = coord[1] + L1               # Y | It is L1 due to start of y should be projection of the end of first link when θ1 = 0
     y = coord[2] + start_height     # Z
     
     θ1 = np.arctan(np.sqrt(x**2 + y**2 - L1**2) / L1) + np.arctan2(y, x)
@@ -14,13 +14,14 @@ def solve_L(coord , L1=KM.l1, L2=KM.l2, L3=KM.l3, W = KM.W, L = KM.L, start_heig
     θ3 = - np.pi + np.arccos((L1**2 + L2**2 + L3**2 - x**2 - y**2 -z**2) / (2*L2*L3))
 
     angles = np.array([θ1,θ2,θ3])    
+    print("angles: ", angles*180/np.pi)
     return angles
     
-def solve_R(coord , L1, L2, L3):
+def solve_R(coord , L1=QM.l1, L2=QM.l2, L3=QM.l3, W = QM.W, L = QM.L, start_height = QM.start_height):
     #check_error(coord , L1, L2, L3)
     z = coord[0]
-    x = coord[1]
-    y = coord[2]
+    x = coord[1] - L1
+    y = coord[2] + start_height
     
     θ1 = np.pi + np.arctan2(y, x) - np.arctan(np.sqrt(x**2 + y**2 - L1**2) / L1) 
     θ2 = np.arctan2(-np.sqrt(x**2 + y**2 - L1**2), z) - np.arccos((x**2 + y**2 + z**2 - L1**2)/(2*L2*np.sqrt(x**2 + y**2 + z**2 - L1**2))) + np.pi/2

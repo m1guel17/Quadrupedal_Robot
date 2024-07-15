@@ -1,8 +1,10 @@
 from FwO import trotz, transl, trotx
+from QD import Quad_model
 import numpy as np
 
-
-def xyz_left(origin, m = [5,12.5,12.5], angles = [0, np.pi/4, -np.pi/2], last = True):
+QM = Quad_model()
+# Direct Kinematics using transformation matrix for quadrupedal robot
+def xyz_left(origin, m = [QM.l1,QM.l2,QM.l3], angles = [0, np.pi/4, -np.pi/2], only_last = True):
     
     T01 = origin * trotz(angles[0]) * transl(0, 0, 0) * transl(m[0], 0, 0) * trotx(0)
     T12 = T01 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(-np.pi/2)
@@ -20,7 +22,8 @@ def xyz_left(origin, m = [5,12.5,12.5], angles = [0, np.pi/4, -np.pi/2], last = 
     x2 = [T23[0,3], T34[0,3]]
     y2 = [T23[1,3], T34[1,3]]
     z2 = [T23[2,3], T34[2,3]]
-    if last != True:
+    
+    if only_last != True:
         return x0, y0, z0, x1, y1, z1, x2, y2, z2
     else:
         return x2[1], y2[1], z2[1]

@@ -6,9 +6,9 @@ from Quadrupedal_Model import Kinematic_Model
 KM = Kinematic_Model()
 L = KM.L
 W = KM.W
-l1 = KM.l1
-l2 = KM.l2
-l3 = KM.l3
+l1 = KM.l1_
+l2 = KM.l2_
+l3 = KM.l3_
 
 origin = np.array([np.matrix(np.eye(4))])
 origin_ = np.array([np.matrix(np.eye(4))* trotz(np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(np.pi/2)])
