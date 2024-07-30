@@ -1,5 +1,5 @@
 from Plot import *
-from FwO import trotz, transl, trotx
+from Operators import trotz, transl, trotx
 import numpy as np
 from Quadrupedal_Model import Kinematic_Model
 
@@ -31,17 +31,17 @@ FL = np.array([matrix, T01, T12, T23, T34])
 # Front_Right Leg ===================================================================
 matrix = origin * trotz(np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(np.pi/2) * transl(-W/2, 0, L/2)
 T01 = matrix * trotz(0) * transl(0, 0, 0) * transl(-l1, 0, 0) * trotx(0)
-T12 = T01 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(-np.pi/2)
-T23 = T12 * trotz(np.pi/4) * transl(0, 0, 0) * transl(l2, 0, 0) * trotx(0)
-T34 = T23 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(l3, 0, 0) * trotx(0)
+T12 = T01 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(np.pi/2)
+T23 = T12 * trotz(-np.pi/4) * transl(0, 0, 0) * transl(l2, 0, 0) * trotx(0)
+T34 = T23 * trotz(np.pi/2) * transl(0, 0, 0) * transl(l3, 0, 0) * trotx(0)
 FR = np.array([matrix, T01, T12, T23, T34])
 
 # Back_Right Leg ===================================================================
 matrix = origin * trotz(np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(np.pi/2) * transl(-W/2, 0, -L/2)
 T01 = matrix * trotz(0) * transl(0, 0, 0) * transl(-l1, 0, 0) * trotx(0)
-T12 = T01 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(-np.pi/2)
-T23 = T12 * trotz(np.pi/4) * transl(0, 0, 0) * transl(l2, 0, 0) * trotx(0)
-T34 = T23 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(l3, 0, 0) * trotx(0)
+T12 = T01 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(np.pi/2)
+T23 = T12 * trotz(-np.pi/4) * transl(0, 0, 0) * transl(l2, 0, 0) * trotx(0)
+T34 = T23 * trotz(np.pi/2) * transl(0, 0, 0) * transl(l3, 0, 0) * trotx(0)
 BR = np.array([matrix, T01, T12, T23, T34])
 
 # Back_Left Leg ===================================================================
@@ -56,4 +56,4 @@ BL = np.array([matrix, T01, T12, T23, T34])
 
 graph_body(body)
 graph([origin_], 4)
-graph([FL,BR,FR,BL])#, show_fw=True)
+graph([FL,BR,FR,BL], show_fw=True)

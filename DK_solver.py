@@ -1,13 +1,13 @@
-from FwO import trotz, transl, trotx
+from Operators import trotz, transl, trotx
 from QD import Quad_model
 import numpy as np
 
 QM = Quad_model()
 # Direct Kinematics using transformation matrix for quadrupedal robot
-def xyz_left(origin, m = [QM.l1,QM.l2,QM.l3], angles = [0, np.pi/4, -np.pi/2], only_last = True):
-    
-    T01 = origin * trotz(angles[0]) * transl(0, 0, 0) * transl(m[0], 0, 0) * trotx(0)
-    T12 = T01 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(-np.pi/2)
+def get_xyz(origin, m = [5,12.5,12,5], angles = [0, np.pi/4, -np.pi/2], rl = "r", only_last = True):
+    coef = (1 if rl == "l" else -1)
+    T01 = origin * trotz(angles[0]) * transl(0, 0, 0) * transl(coef*m[0], 0, 0) * trotx(0)
+    T12 = T01 * trotz(-np.pi/2) * transl(0, 0, 0) * transl(0, 0, 0) * trotx(-np.pi/2*coef)
     T23 = T12 * trotz(angles[1]) * transl(0, 0, 0) * transl(m[1], 0, 0) * trotx(0)
     T34 = T23 * trotz(angles[2]) * transl(0, 0, 0) * transl(m[2], 0, 0) * trotx(0)
     
@@ -27,9 +27,3 @@ def xyz_left(origin, m = [QM.l1,QM.l2,QM.l3], angles = [0, np.pi/4, -np.pi/2], o
         return x0, y0, z0, x1, y1, z1, x2, y2, z2
     else:
         return x2[1], y2[1], z2[1]
-
-
-
-
-
-

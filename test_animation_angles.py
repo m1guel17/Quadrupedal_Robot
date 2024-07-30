@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
-from FwO import trotz, transl, trotx
+from Operators import trotz, transl, trotx
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
